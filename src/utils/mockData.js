@@ -2190,3 +2190,26 @@ export const allResturants = [{
     "subtype": "basic"
   }
 ]
+
+export let filterConfig = [
+  {
+    displayName: 'Price high to low',
+    name: 'priceHighToLow',
+    isActive: false,
+  },
+  {
+    displayName: 'Price low to high',
+    name: 'priceLowToHigh',
+    isActive: false,
+  },
+  {
+    displayName: 'Delivery Time',
+    name: 'deliveryTime',
+    isActive: false,
+  },
+  {
+    displayName: 'Average Rating',
+    name: 'avgRating',
+    isActive: false
+  }
+]
