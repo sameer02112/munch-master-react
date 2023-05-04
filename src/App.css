@@ -1,38 +1,100 @@
-.App {
-  text-align: center;
+/* header */
+.header{
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #c9c9c9;
+  align-items: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.logo-container > img{
+  height: 150px;
+  width: 150px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.nav-items{
+  padding-right: 30px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.nav-items > ul{
+  display: flex;
+  list-style-type: none;
+  font-size: 20px;
+}
+
+.nav-items > ul > li{
+  margin: 10px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.cart-superscript-text{
+  position: relative;
+  top: -10;
+}
+
+
+/* body */
+.search{
+  padding: 20px;
+}
+
+.filter-btn{
+  cursor: pointer;
+}
+
+.resturant-container{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.resturant-card{
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  width: 300px;
+  padding: 15px;
+  /* background-color: #f0f0f0; */
+  margin: 5px;
+}
+.resturant-card:hover{
+  cursor: pointer;
+  /* border: 1px solid #c9c9c9; */
+  box-shadow: 2px 4px 2px 2px #c9c9c9;
+}
+
+.resturant-card > img {
+  height: 200px;
+  width: 100%;
+}
+
+.card-basic-info{
+  display: flex;
+  margin-top: auto;
+  justify-content: space-evenly;
+  font-size: 14px;
+}
+
+.card-name-container > h3,h4 {
+  margin-left: 10px;
+}
+
+.avg-rating-container{
+  height: 30px;
+  width: 55px;
+  display: flex;
+  position: relative;
+  top: 20%;
+  border-radius: 3px;
+}
+.avg-rating-container > p {
+  margin: 0 auto;
+  position: relative;
+  top: 25%;
   color: white;
 }
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.ratingStarIcon{
+  font-size: 4px;
+  position: relative;
+  top: 5% !important;
+  left: 10%;
+  color: white;
 }
