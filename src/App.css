@@ -195,3 +195,21 @@
   margin-top: 0;
   margin-bottom: 0;  
 }
+
+/* shimmer */
+.container-shimmer{
+  display: flex;
+  flex-direction: column;
+}
+.search-shimmer{
+  height: 30px;
+  border-radius: 10px;
+  margin-top: 40px;
+  margin-left: 20px;
+  margin-right: 200px;
+}
+.resturant-card-shimmer{
+  padding: 15px;
+  margin: 5px;
+  margin-top: 120px;
+}

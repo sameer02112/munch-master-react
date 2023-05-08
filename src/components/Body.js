@@ -14,7 +14,6 @@ export const Body = () => {
     const [listOfResOriginal,setListOfResOriginal] = useState([]);
     const [sortingConfig, setSortingConfig] = useState(filterConfig);
     const [searchText, setSearchText] = useState("");
-    const [searchClicked, setSearchClicked] = useState(false);
     const [isFilterApplied, setIsFilterApplied] = useState(false);
 
 
@@ -33,7 +32,7 @@ export const Body = () => {
     const changeFilter = (data) => () => {
       let localConfigData = Object.assign([],sortingConfig);
       localConfigData.forEach(ele=>{
-        if(ele.name == data.name){
+        if(ele.name === data.name){
           if(ele.isActive){
             ele.isActive = false;
             setListOfRes(listOfResOriginal)
@@ -74,7 +73,7 @@ export const Body = () => {
       setListOfRes(finalResList);
     }
 
-    return listOfResOriginal.length == 0 ? (
+    return listOfResOriginal.length === 0 ? (
       <Shimmer/> 
         ) : (
           <div className="body">
@@ -92,8 +91,8 @@ export const Body = () => {
             </div>
 
             {/* sorting filter */}
-            {listOfRes.length == 0 && <h3 className = "no-result-found-container">No Results Found!</h3>}
-            {listOfRes.length != 0 && 
+            {listOfRes.length === 0 && <h3 className = "no-result-found-container">No Results Found!</h3>}
+            {listOfRes.length !== 0 && 
             <>
               <div className="resturant-filter-container">
                 {isFilterApplied && <FilterAltOutlinedIcon fontSize="large" style={{color: '#213552'}}/>}
