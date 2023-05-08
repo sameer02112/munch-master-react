@@ -1,32 +1,54 @@
 import React from "react";
-import {allResturants,filterConfig} from './../utils/mockData';
+import {filterConfig} from './../utils/mockData';
 import {ResturantCard} from './ResturantCard';
-import { useState } from "react";
+import {Shimmer} from './Shimmer'
+import { useState , useEffect} from "react";
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
-
+import FilterAltOffOutlinedIcon from '@mui/icons-material/FilterAltOffOutlined';
+import { Divider } from "@mui/material";
 
 
 export const Body = () => {
 
-    const [listOfRes,setListOfRes] = useState(allResturants);
-    const [sortingConfig, setSortingConfig] = useState(filterConfig)
+    const [listOfRes,setListOfRes] = useState([]);
+    const [listOfResOriginal,setListOfResOriginal] = useState([]);
+    const [sortingConfig, setSortingConfig] = useState(filterConfig);
+    const [searchText, setSearchText] = useState("");
+    const [searchClicked, setSearchClicked] = useState(false);
+    const [isFilterApplied, setIsFilterApplied] = useState(false);
 
-    const filterResturants = () => {
-        setListOfRes(allResturants.filter(el=>el.data.avgRating>4));
+
+    useEffect(()=>{
+       getResturantsDataApi()
+    },[])
+
+    async function getResturantsDataApi(){
+      const data = await fetch('https://www.swiggy.com/dapi/restaurants/list/v5?lat=17.385044&lng=78.486671&page_type=DESKTOP_WEB_LISTING');
+      const json = await data.json();
+      const value =  json?.data?.cards[2]?.data?.data?.cards;
+      setListOfRes(value)
+      setListOfResOriginal(value)
     }
 
     const changeFilter = (data) => () => {
       let localConfigData = Object.assign([],sortingConfig);
       localConfigData.forEach(ele=>{
         if(ele.name == data.name){
+          if(ele.isActive){
+            ele.isActive = false;
+            setListOfRes(listOfResOriginal)
+            setSortingConfig(sortingConfig)
+            setIsFilterApplied(false);
+            return;
+          }
           ele.isActive = !ele.isActive;
           applyChangesOnResturantCards(ele.name)
+          setIsFilterApplied(true)
         }else{
           ele.isActive = false;
         }
       })
       setSortingConfig(localConfigData)
-      
     }
 
     const applyChangesOnResturantCards = (name) => { 
@@ -46,33 +68,59 @@ export const Body = () => {
        setListOfRes(localResData)
     }
 
-    return(
-      <div className="body">
-        {/* search bar */}
-        <div className="search">
-            <div className="filter">
-                <button className="filter-btn" onClick={filterResturants}>Top Rated Resturant</button>
+    const searchResturants = () => {
+      let initialResList = Object.assign([],listOfResOriginal);
+      let finalResList = initialResList.filter(el => (el.data.name.toLowerCase()).includes(searchText.toLowerCase()));
+      setListOfRes(finalResList);
+    }
+
+    return listOfResOriginal.length == 0 ? (
+      <Shimmer/> 
+        ) : (
+          <div className="body">
+            {/* search bar */}
+            <div className="search">
+                <input
+                  type="text"
+                  className="search-input"
+                  placeholder="Search"
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}>
+                </input>
+                <button className="search-btn" onClick={searchResturants}>Search</button>
+
             </div>
-        </div>
 
-        <div className="resturant-filter-container">
-          <FilterAltOutlinedIcon fontSize="large" style={{color: '#8a584b'}}/>
-          {sortingConfig.map(ele => {
-            return(
-              <div 
-                className="sort-text-box" 
-                style={{backgroundColor: ele.isActive? '#5d8ed5': 'inherit'}} 
-                onClick={changeFilter(ele)}>
-                  {ele.displayName}
+            {/* sorting filter */}
+            {listOfRes.length == 0 && <h3 className = "no-result-found-container">No Results Found!</h3>}
+            {listOfRes.length != 0 && 
+            <>
+              <div className="resturant-filter-container">
+                {isFilterApplied && <FilterAltOutlinedIcon fontSize="large" style={{color: '#213552'}}/>}
+                {!isFilterApplied && <FilterAltOffOutlinedIcon fontSize="large" style={{color: '#213552'}}/>}
+                {sortingConfig.map((ele,index) => {
+                  return(
+                    <div 
+                      className="sort-text-box" 
+                      style={{backgroundColor: ele.isActive? '#5d8ed5': 'inherit'}} 
+                      key={index}
+                      onClick={changeFilter(ele)}>
+                        {ele.displayName}
+                    </div>
+                  )
+                })}
               </div>
-            )
-          })}
-        </div>
 
-        {/* resturant card */}
-        <div className="resturant-container">
-          {listOfRes.map(ele => <ResturantCard key = {ele?.data?.id} resData = {ele}/>)}       
-        </div>
-      </div>
-    )
+              {/* number of resturants heading */}
+              <p className="no-of-res-text">{listOfRes.length} Resturants</p>
+              <Divider variant="middle" className="card-divider"/>
+
+              {/* resturant card */}
+              <div className="resturant-container">
+                {listOfRes.map(ele => <ResturantCard key = {ele?.data?.id} resData = {ele}/>)}       
+              </div>
+            </>
+            }
+          </div>
+        )
   }

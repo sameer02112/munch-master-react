@@ -7,7 +7,12 @@ export const Header = () => {
       <div className="header">
         <div className="logo-container">
            <img src={MunchMaster} alt={'MunchMasterLogo'}></img>
+           <p><b>Sign In | Sign Up</b></p>
+           <p>Kondapur, Hyderabad, Telengana 500084 </p>
         </div>
+        {/* <div className="signup-container">
+          
+        </div> */}
         <div className="nav-items">
           <ul>
             <li>Home</li>
