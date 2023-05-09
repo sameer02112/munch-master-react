@@ -14,11 +14,11 @@ export const ResturantCard = ({resData}) => {
             <h5>{cuisines.join(', ')}</h5>
           </div>
           <div className="card-basic-info">
-              <div className="avg-rating-container" style={{backgroundColor: avgRating>4 ? '#48c479' : '#db7c38'}}>
+              <div className="avg-rating-container" style={{backgroundColor: avgRating>=4 ? '#48c479' : '#db7c38'}}>
               <StarIcon className="ratingStarIcon"/><p>{avgRating}</p>  
               </div>    
               <p>{costForTwo/100} FOR TWO</p>
-              <p>{deliveryTime} MINS</p>
+              <p>{deliveryTime}</p>
           </div>
           <Divider variant="middle" className="card-divider"/>
           <h4 className="card-offer-text">{aggregatedDiscountInfo?.shortDescriptionList[0]?.meta}</h4>

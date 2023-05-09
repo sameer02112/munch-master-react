@@ -13,9 +13,9 @@ export const Shimmer = () => {
           </Stack>
         </div>
         <div className="resturant-container">
-                {tempArr.map(ele=>{
+                {tempArr.map((ele,index)=>{
                 return(
-                    <ShimmerCard />
+                    <ShimmerCard key={index} />
                 )
             })}
             </div>

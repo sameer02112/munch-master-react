@@ -6,7 +6,7 @@ import { useState , useEffect} from "react";
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import FilterAltOffOutlinedIcon from '@mui/icons-material/FilterAltOffOutlined';
 import { Divider } from "@mui/material";
-
+import { Link } from "react-router-dom";
 
 export const Body = () => {
 
@@ -49,6 +49,7 @@ export const Body = () => {
       })
       setSortingConfig(localConfigData)
     }
+
 
     const applyChangesOnResturantCards = (name) => { 
       let localResData = Object.assign([],listOfRes);
@@ -116,7 +117,11 @@ export const Body = () => {
 
               {/* resturant card */}
               <div className="resturant-container">
-                {listOfRes.map(ele => <ResturantCard key = {ele?.data?.id} resData = {ele}/>)}       
+                {listOfRes.map(ele => 
+                <Link to = {`/resturant/${ele?.data?.id}`} key = {ele?.data?.id} >
+                  <ResturantCard resData = {ele}/>
+                </Link>
+                  )}       
               </div>
             </>
             }

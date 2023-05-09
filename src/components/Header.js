@@ -1,6 +1,7 @@
 import React from 'react';
 import MunchMaster from './../resources/MunchMaster.png';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { Link } from 'react-router-dom';
 
 export const Header = () => {
     return (
@@ -15,10 +16,10 @@ export const Header = () => {
         </div> */}
         <div className="nav-items">
           <ul>
-            <li>Home</li>
-            <li>About Us</li>
-            <li>Contact</li>
-            <li><ShoppingCartOutlinedIcon fontSize="medium"/><sub className="cart-superscript-text">1</sub></li>
+              <li><Link to ="/"> Home </Link></li>
+              <li><Link to = "/about"> About Us </Link></li>
+              <li><Link to = "/contact"> Contact </Link></li>
+              <li><Link to = "/cart"> <ShoppingCartOutlinedIcon fontSize="medium"/><sub className="cart-superscript-text">1</sub> </Link></li>
           </ul>
         </div>
         

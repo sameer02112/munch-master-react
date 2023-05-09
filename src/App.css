@@ -1,4 +1,6 @@
 /* header */
+
+
 .header{
   display: flex;
   justify-content: space-between;
@@ -25,16 +27,19 @@
   display: flex;
   list-style-type: none;
   font-size: 20px;
+  text-decoration: none;
 }
 
 .nav-items > ul > li{
   margin: 10px;
   padding: 10px;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .nav-items > ul > li:hover{
   color: rgb(97, 121, 128);
+  
 }
 
 .cart-superscript-text{
@@ -99,6 +104,7 @@
   width: 300px;
   padding: 15px;
   margin: 5px;
+ 
 }
 .resturant-parent-container:hover{
   cursor: pointer;
@@ -212,4 +218,207 @@
   padding: 15px;
   margin: 5px;
   margin-top: 120px;
+}
+
+/* menu */
+.res-menu-page-container{
+  /* display: flex; */
+  width: 70%; 
+  background-color: #fcfcfc;
+  margin: 0 auto;
+  margin-top: 10px;
+}
+.res-menu-search-container{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+.res-menu-title-container{
+  display: flex;
+  justify-content: space-between;
+}
+.res-menu-rating-container{
+  width: 68px;
+  border: 1px solid #c9c9c9;
+  border-radius: 5px;
+  margin-top: 24px;
+  margin-bottom: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.res-menu-number-of-rating{
+  font-size: 10px;
+}
+.res-menu-rating-top{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-self: center;
+}
+.res-menu-number-of-rating{
+  margin-top: 0;
+}
+.res-menu-address-tab{
+  font-size: 14px;
+  margin-top: 10px;
+  color: #545454;
+}
+.res-menu-delivery-details{
+  font-size: 14px;
+}
+.res-menu-delivery-time-container{
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+}
+.res-menu-delivery-time-container > p{
+  margin: 15px;
+  color: #545454;
+}
+.res-menu-offer-card-container{
+  display: flex;
+  padding: 15px;
+  overflow-x: scroll;
+}
+.res-offer-box{
+  width: 250px;
+  border: 1px solid #c9c9c9;
+  border-radius: 5px;
+  margin: 10px;
+}
+.res-offer-box-top{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  
+}
+.res-offer-icon{
+  width: 20px;
+  height: 20px;
+}
+.res-offer-box-top > p{
+  font-size: 16px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  
+}
+.res-offer-box > p{
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 5px;
+  margin: 0px;
+  text-align: center;
+}
+.res-menu-veg-only-toggle{
+  display: flex;
+  align-items: center;
+}
+.res-menu-container{
+  margin: 10px;
+}
+
+.res-single-menu-item-container{
+  height: 170px;
+  display: flex;
+  justify-content: space-between;
+  margin-left: 10px;
+}
+
+.res-single-menu-item-title{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.res-price{
+  display: flex;
+  align-items: center;
+}
+.res-single-menu-item-title > p:last-child{
+  font-size: 14px;
+  color: #545454;
+}
+.res-menu-search-tab{
+  cursor: pointer;
+}
+.bestseller-icon{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 10px;
+}
+
+.bestseller-icon > p{
+  font-size: 12px;
+}
+
+.bestseller-tag{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.res-menu-img-container{
+  position: relative;
+}
+
+.add-to-card-btn{
+  position: absolute;
+	padding: 5px;
+	bottom: 0px;
+	left: 22%;
+	width: 100px;
+  background-color: white;
+  border: 1px solid #c9c9c9;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.customise-text{
+  position: absolute;
+	bottom: 0px;
+	left: 35%;
+	width: 100px;
+  font-size: 10px;
+  top: 160px;
+  color: #9d9d9d;
+}
+.res-single-menu-img{
+  width: 140px;
+  height: 140px;
+  margin: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.rating-text-menu{
+  margin-left: 10px;
+  font-size: 14px;
+}
+.star-icon-menu{
+  position: relative;
+  top: 5px;
+}
+
+
+/* customise page */
+.customise-dialog-container{
+  width: 100%;
+}
+.customise-radio-card{
+  display: flex;
+  align-items: center;
+}
+.customise-radio-text{
+  color:black;
+  margin-right: 10px;
+  font-size: 16px;
+}
+.add-customised-food-btn{
+  width: 100%;
+  background-color: #60b246;
+  height: 30px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  margin: 10px;
 }
