@@ -17,14 +17,11 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import Button from '@mui/material/Button';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import FormGroup from '@mui/material/FormGroup';
 import Checkbox from '@mui/material/Checkbox';
+import foodDummy from './../resources/foodDummy.png';
+import {ShimmerMenu} from './ShimmerMenu';
 
 
 export const ResturantMenu = () => {
@@ -32,6 +29,8 @@ export const ResturantMenu = () => {
     const {id} = useParams();
     const [resturantMenu, setResturantMenu] = useState({});
     const [isVegShowActive, setIsVegShowActive] = useState(false);
+    
+    const resturantInfo = resturantMenu?.menuBasicInfo;
 
     useEffect(() => {
         getResturantInfo();
@@ -51,31 +50,31 @@ export const ResturantMenu = () => {
         setResturantMenu(tempObj);
     }
 
-    return Object.keys(resturantMenu).length === 0 ? <></> :
+    return Object.keys(resturantMenu).length === 0 ? <ShimmerMenu/> :
         <div className="res-menu-page-container">
             {/* row-1 */}
            <div className="res-menu-search-container">
-               <div className="res-menu-address-tab"> kondapur/hyderabad/telengana</div>
+               <div className="res-menu-address-tab"> {resturantInfo.areaName} / {resturantInfo.city}</div>
                <div className="res-menu-search-tab"><SearchIcon/></div>
            </div>
             {/* row-2 */}
            <div className="res-menu-title-container">
                <div className="res-menu-title-container-details">
-                   <h1><b>{resturantMenu?.menuBasicInfo?.name}</b></h1>
-                   <span>{resturantMenu.menuBasicInfo.cuisines.join(', ')}<br/></span>
-                   <span>{resturantMenu.menuBasicInfo.areaName} | {resturantMenu.menuBasicInfo.sla.lastMileTravelString}</span>
+                   <h1><b>{resturantInfo.name}</b></h1>
+                   <span>{resturantInfo.cuisines.join(', ')}<br/></span>
+                   <span>{resturantInfo.areaName} | {resturantInfo.sla.lastMileTravelString}</span>
                </div>
                <div className="res-menu-rating-container">
                    <div className="res-menu-rating-top">
-                    <StarIcon style={{color: resturantMenu.menuBasicInfo.avgRating>=4 ? '#48c479':'#db7c38' , marginTop: '12px'}}/>
-                        <p className="res-menu-avg-rating">{resturantMenu.menuBasicInfo.avgRating}</p>
+                    <StarIcon style={{color: resturantInfo.avgRating>=4 ? '#48c479':'#db7c38' , marginTop: '12px'}}/>
+                        <p className="res-menu-avg-rating">{resturantInfo.avgRating}</p>
                    </div>
                     <br/>
-                    <p className="res-menu-number-of-rating">{resturantMenu.menuBasicInfo.totalRatingsString}</p>
+                    <p className="res-menu-number-of-rating">{resturantInfo.totalRatingsString}</p>
                </div>  
            </div>
             {/* row-3 */}
-           <p className="res-menu-delivery-details"> {resturantMenu.menuBasicInfo.feeDetails.message} </p>
+           <p className="res-menu-delivery-details"> {resturantInfo.feeDetails.message} </p>
 
 
             {/* row-4 */}
@@ -84,9 +83,9 @@ export const ResturantMenu = () => {
             {/* row-5 */}
             <div className="res-menu-delivery-time-container">
                 <AvTimerIcon/>
-                <p>{resturantMenu.menuBasicInfo.sla.deliveryTime} MINS</p>
+                <p>{resturantInfo.sla.deliveryTime} MINS</p>
                 <CurrencyRupeeIcon style={{marginLeft: '40px'}}/>
-                <p>{resturantMenu.menuBasicInfo.costForTwo/100} FOR TWO</p>
+                <p>{resturantInfo.costForTwo/100} FOR TWO</p>
             </div>
 
             {/* row-6 */}
@@ -119,7 +118,10 @@ const ResturantOfferBox = (props) => {
     return(
         <div className="res-offer-box">
             <div className="res-offer-box-top">
-                <img className="res-offer-icon" src={`https://res.cloudinary.com/swiggy/image/upload/${logoBottom}`} alt="img"/>
+                {logoBottom && 
+                <img className="res-offer-icon" src={`https://res.cloudinary.com/swiggy/image/upload/${logoBottom}`} alt="img"/>}
+                 {!logoBottom && 
+                <img className="res-offer-icon" src={`https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_28,h_28/Store_Assets/Icons/OfferIconCart`} alt="img"/>}
                 <p>{header}</p>
             </div>
             <p><b>{`${description} |  ${couponCode}`} </b></p>
@@ -194,20 +196,43 @@ const ResturantMenuList = ({data,isVegShowActive}) => {
 
 const ResturentFoodItem = (props) => {
 
-    const [isCustomiseDialogOpen, setIsCustomiseDialogOpen] = useState(false)
-    const [customiseFoodObj , setCustomiseFoodObj] = useState({})
+    const [isCustomiseDialogOpen, setIsCustomiseDialogOpen] = useState(false);
+    const [customiseFoodObj , setCustomiseFoodObj] = useState({});
+    const [cart, setCart] = useState([]);
 
-    const openCustomizingFoodScreen = (addOnOption) => {
+    const openCustomizingFoodScreen = (addOnOption,name) => {
+        let tempObj = Object.assign({},addOnOption[0]);
+        tempObj['name'] = name;
         setIsCustomiseDialogOpen(true)
-        setCustomiseFoodObj(addOnOption)
+        setCustomiseFoodObj(tempObj)
     }
 
     const closeCustomiseDialog = () => {
         setIsCustomiseDialogOpen(false)
     }
 
-    const addFoodToCart = () => {
-
+    const addFoodToCart = (data) => {
+        console.log(data)
+       let initialCartData = Object.assign([],cart);
+       let tempObj = {};
+       const foodCheck = initialCartData.filter(ele => ele?.foodData?.id == data?.id);
+       console.log('foodCheck',foodCheck)
+       if(foodCheck.length==0){
+        tempObj['foodData'] = data;
+        tempObj['quantity'] = 1;
+        initialCartData.push(tempObj)
+       }else{
+        initialCartData.forEach(ele => {
+            if(ele.foodData.id == data.id){
+                ele['quantity']+=1;
+            }
+        })
+       }
+       
+    //    tempObj['foodData'] = {'a':10};
+    //    tempObj['quantity'] = 1;
+       
+       setCart(initialCartData);
     }
 
     const {name,imageId,price,itemAttribute,description,defaultPrice,isBestseller,ratings,addons,variantsV2} = props?.data?.card?.info;
@@ -219,6 +244,7 @@ const ResturentFoodItem = (props) => {
     if(!isVegShowActive || isVeg === 'VEG'){
     return(
         <>
+        {console.log(cart)}
         <div className="res-single-menu-item-container">
             <div className="res-single-menu-item-title">
                 <div className="bestseller-tag">
@@ -235,10 +261,15 @@ const ResturentFoodItem = (props) => {
                  <p>{description}</p>
             </div>
            <div className="res-menu-img-container">
-                <img className="res-single-menu-img" src={`https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_208,h_208,c_fit/${imageId}`} alt=""></img>
-                <button className="add-to-card-btn" onClick={() => (isAddonAvailable) ? openCustomizingFoodScreen(addons[0]) : addFoodToCart}>ADD<sup>+</sup></button>
-                {(isAddonAvailable) &&
-                     <p className="customise-text">Customisable</p>}
+               {/* openCustomizingFoodScreen(addons,name) */}
+                 {imageId && 
+                    <img className="res-single-menu-img" src={`https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_208,h_208,c_fit/${imageId}`} alt=""/>}
+                 {!imageId && 
+                    <img className="res-single-menu-img" src={foodDummy} alt=""/>}
+                    {/* replace the first statement of ternery op with the above commented code */}
+                    <button className="add-to-card-btn" onClick={() => (isAddonAvailable) ? addFoodToCart(props?.data?.card?.info) : addFoodToCart(props?.data?.card?.info)}>ADD<sup>+</sup></button>
+                    {(isAddonAvailable) &&
+                        <p className="customise-text">Customisable</p>}
            </div>
         </div>
          <Divider variant="middle" className="card-divider"/>
@@ -249,12 +280,12 @@ const ResturentFoodItem = (props) => {
             fullWidth={true}
             >
             <DialogTitle id="alert-dialog-title">
-                <Typography style={{fontSize: '20px'}}>Customise "{customiseFoodObj.groupName}"</Typography>
+                <Typography style={{fontSize: '20px'}}>Customise "{customiseFoodObj.name}"</Typography>
             </DialogTitle>
             <DialogContent>
             <DialogContentText>
-                <Divider variant="middle" className="card-divider" style={{marginBottom: '20px'}}/>
-                <Typography style={{marginBottom: '20px'}}>* Quantity <sub>(Required)</sub></Typography>
+                <Divider variant="middle" className="card-divider" />
+                <Typography style={{marginBottom: '20px'}}>* {customiseFoodObj.groupName} <sub>(Optional)</sub></Typography>
                 <FormControl>                    
                     {isAddonAvailable && 
                      customiseFoodObj?.choices?.map(ele => {
@@ -272,6 +303,7 @@ const ResturentFoodItem = (props) => {
             </DialogContentText>
             </DialogContent>
             <DialogActions>
+
             <button onClick={closeCustomiseDialog} className="add-customised-food-btn" > ADD ITEM </button>
             </DialogActions>
         </Dialog>

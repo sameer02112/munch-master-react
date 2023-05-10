@@ -6,6 +6,11 @@ import { Error } from './components/Error';
 import { createBrowserRouter , RouterProvider } from 'react-router-dom';
 import { Contact } from './components/Contact';
 import { Body } from './components/Body';
+import { Cart } from './Cart';
+import { Profile } from './components/Profile';
+import { Upgrade, Payments , Addresses , Settings } from './components/Profile';
+import { Orders } from './components/Orders';
+import { Favourites } from './components/Favourites';
 import { ResturantMenu} from './components/ResturantMenu'
 
 
@@ -27,6 +32,42 @@ const appRouter = createBrowserRouter([
         path: "/contact",
         element: <Contact/>
       },
+      {
+        path: "/profile",
+        element: <Profile/>,
+        children: [
+          {
+            path: "/profile/orders",
+            element: <Orders/>,
+          },
+          {
+            path: "/profile/favourites",
+            element: <Favourites/>,
+          },
+          {
+            path: "/profile/upgrade",
+            element: <Upgrade/>,
+          }, 
+          {
+            path: "/profile/payments",
+            element: <Payments/>,
+          },
+          {
+            path: "/profile/addresses",
+            element: <Addresses/>,
+          },
+          {
+            path: "/profile/settings",
+            element: <Settings/>,
+          }
+
+        ]
+      },
+      {
+        path: "/cart",
+        element: <Cart/>
+      },
+      
       {
         path: "/resturant/:id",
         element: <ResturantMenu/>

@@ -1,0 +1,59 @@
+.user-profile-parent-container{
+    background-color: #37718e;
+    padding: 0px !important;
+    margin: 0px !important;
+}
+.user-profile-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.user-basic-info-container{
+    margin: 50px;
+    color: white;
+    /* height: 200px; */
+}
+.edit-profile-btn{
+    color: white !important ;
+    height: 40px;
+    width: 200px;
+    border: 1px solid white;
+    margin: 50px !important;
+}
+.user-profile-tabs-container{
+    margin-left: 100px;
+    margin-right: 100px;
+    background-color: white;
+    height: 500px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.user-profile-menu-tab{
+    width: 300px;
+    background-color: #edf1f7;
+    margin: 10px;
+}
+ul{
+    list-style-type: none;
+}
+
+ul > li{
+   color: rgb(60, 60, 60);
+   padding: 15px;
+   margin: 10px;
+   text-decoration: none;
+   cursor: pointer;
+   font-size: 20px;
+   font-weight: 600;
+}
+
+ul > li:hover{
+    color: rgb(97, 121, 128);
+ }
+
+.user-profile-menu-screen{
+    border-left: 1px solid #edf1f7;
+    flex: 1;
+}

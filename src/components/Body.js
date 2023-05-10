@@ -15,6 +15,7 @@ export const Body = () => {
     const [sortingConfig, setSortingConfig] = useState(filterConfig);
     const [searchText, setSearchText] = useState("");
     const [isFilterApplied, setIsFilterApplied] = useState(false);
+    const [crouselVal, setCrouselVal] = useState([]);
 
 
     useEffect(()=>{
@@ -25,8 +26,11 @@ export const Body = () => {
       const data = await fetch('https://www.swiggy.com/dapi/restaurants/list/v5?lat=17.385044&lng=78.486671&page_type=DESKTOP_WEB_LISTING');
       const json = await data.json();
       const value =  json?.data?.cards[2]?.data?.data?.cards;
+      const crousel = json?.data?.cards[0].data?.data.cards;
       setListOfRes(value)
       setListOfResOriginal(value)
+      console.log(crousel)
+      setCrouselVal(crousel)
     }
 
     const changeFilter = (data) => () => {
@@ -88,7 +92,16 @@ export const Body = () => {
                   onChange={(e) => setSearchText(e.target.value)}>
                 </input>
                 <button className="search-btn" onClick={searchResturants}>Search</button>
+            </div>
 
+            <div className="homepage-img-crousel">
+              {crouselVal.map(ele => {
+                return (
+                  <div className="homepage-crousel-card">
+                      <img src = {`https://res.cloudinary.com/swiggy/image/upload/${ele.data.creativeId}`} alt="crouselimg"/>
+                  </div>
+                )
+              })}
             </div>
 
             {/* sorting filter */}
@@ -118,7 +131,7 @@ export const Body = () => {
               {/* resturant card */}
               <div className="resturant-container">
                 {listOfRes.map(ele => 
-                <Link to = {`/resturant/${ele?.data?.id}`} key = {ele?.data?.id} >
+                <Link to = {`/resturant/${ele?.data?.id}`} key = {ele?.data?.id} style={{color: 'inherit', textDecoration: 'none'}}>
                   <ResturantCard resData = {ele}/>
                 </Link>
                   )}       
