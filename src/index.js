@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {lazy, Suspense} from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import { About } from './components/About';
@@ -11,8 +11,12 @@ import { Profile } from './components/Profile';
 import { Upgrade, Payments , Addresses , Settings } from './components/Profile';
 import { Orders } from './components/Orders';
 import { Favourites } from './components/Favourites';
-import { ResturantMenu} from './components/ResturantMenu'
+import { ResturantMenu} from './components/ResturantMenu';
+import { Shimmer } from './components/Shimmer';
+// import { Instamart } from './components/Instamart';
 
+// Lazy/Dynamic import
+const Instamart = lazy(() => import("./components/Instamart"));
 
 const appRouter = createBrowserRouter([
   {
@@ -31,6 +35,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/contact",
         element: <Contact/>
+      },
+      {
+        path: "/instamart",
+        element: <Suspense fallback={<Shimmer/>}><Instamart/></Suspense>
       },
       {
         path: "/profile",

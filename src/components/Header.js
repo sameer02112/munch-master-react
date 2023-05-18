@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import MunchMaster from './../resources/MunchMaster.png';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { Link } from 'react-router-dom';
@@ -6,6 +6,7 @@ import Drawer from '@mui/material/Drawer';
 import { useState } from 'react';
 import './../stylesheets/login.css';
 import { LogIn } from './LogIn';
+import UserContext from '../utils/UserContext';
 
 export const Header = () => {
 
@@ -19,6 +20,8 @@ export const Header = () => {
   const closeLoginDrawer = () => {
     setIsLoginDrawerOpen(false);
   }
+
+  const {user} = useContext(UserContext);
 
 
     return (
@@ -35,13 +38,14 @@ export const Header = () => {
               <li><Link to ="/" style={{color: 'inherit', textDecoration: 'none'}}> Home </Link></li>
               <li><Link to = "/about" style={{color: 'inherit', textDecoration: 'none'}}> About Us </Link></li>
               <li><Link to = "/contact" style={{color: 'inherit', textDecoration: 'none'}}> Contact </Link></li>
+              <li><Link to = "/instamart" style={{color: 'inherit', textDecoration: 'none'}}> Instamart </Link></li>
 
               {!isUserLoggedIn && 
                 <li onClick={openSignInPage}>Sign In</li>}
 
               {isUserLoggedIn && 
               <div className="profile-dropdown">
-                  <li>Hello, Sameer</li>
+                  <li>Hello, {user.name}</li>
                   <ul className="profile-dropdown-content">
                       <li><Link to = "/profile" style={{color: 'inherit', textDecoration: 'none'}}>Profile</Link></li>
                       <li><Link to = "/profile/orders" style={{color: 'inherit', textDecoration: 'none'}}>Orders</Link></li>

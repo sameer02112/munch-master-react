@@ -7,6 +7,7 @@ import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import FilterAltOffOutlinedIcon from '@mui/icons-material/FilterAltOffOutlined';
 import { Divider } from "@mui/material";
 import { Link } from "react-router-dom";
+import {useOnline} from './../utils/useOnline';
 
 export const Body = () => {
 
@@ -76,6 +77,12 @@ export const Body = () => {
       let initialResList = Object.assign([],listOfResOriginal);
       let finalResList = initialResList.filter(el => (el.data.name.toLowerCase()).includes(searchText.toLowerCase()));
       setListOfRes(finalResList);
+    }
+
+    const isOnline = useOnline();
+
+    if(!isOnline){
+      return <h2>No Internet Connection!</h2>
     }
 
     return listOfResOriginal.length === 0 ? (
