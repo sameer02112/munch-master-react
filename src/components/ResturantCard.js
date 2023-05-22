@@ -4,7 +4,7 @@ import StarIcon from '@mui/icons-material/Star';
 import { Divider } from "@mui/material";
 
 export const ResturantCard = ({resData}) => {
-    const {cloudinaryImageId,name,cuisines,avgRating,costForTwo,deliveryTime,aggregatedDiscountInfo} = resData?.data;
+    const {cloudinaryImageId,name,cuisines,avgRating,costForTwo,deliveryTime,aggregatedDiscountInfo} = resData?.data.hasOwnProperty("id") ? resData?.data : resData?.data?.data;
     return(
       <div className="resturant-parent-container">
         <div className="resturant-card">

@@ -212,11 +212,9 @@ const ResturentFoodItem = (props) => {
     }
 
     const addFoodToCart = (data) => {
-        console.log(data)
        let initialCartData = Object.assign([],cart);
        let tempObj = {};
        const foodCheck = initialCartData.filter(ele => ele?.foodData?.id == data?.id);
-       console.log('foodCheck',foodCheck)
        if(foodCheck.length==0){
         tempObj['foodData'] = data;
         tempObj['quantity'] = 1;
@@ -244,7 +242,7 @@ const ResturentFoodItem = (props) => {
     if(!isVegShowActive || isVeg === 'VEG'){
     return(
         <>
-        {console.log(cart)}
+
         <div className="res-single-menu-item-container">
             <div className="res-single-menu-item-title">
                 <div className="bestseller-tag">

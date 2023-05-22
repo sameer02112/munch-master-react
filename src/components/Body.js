@@ -17,11 +17,18 @@ export const Body = () => {
     const [searchText, setSearchText] = useState("");
     const [isFilterApplied, setIsFilterApplied] = useState(false);
     const [crouselVal, setCrouselVal] = useState([]);
-
+    const [offsetVal, setOffsetVal] = useState(0);
+    const [isFetching, setIsFetching] = useState(false);
 
     useEffect(()=>{
+       window.addEventListener("scroll", handleScroll);
        getResturantsDataApi()
     },[])
+
+    useEffect(()=>{
+      if (!isFetching) return;
+      getResturantsDataApiWithOffset();
+    },[isFetching])
 
     async function getResturantsDataApi(){
       const data = await fetch('https://www.swiggy.com/dapi/restaurants/list/v5?lat=17.385044&lng=78.486671&page_type=DESKTOP_WEB_LISTING');
@@ -30,9 +37,27 @@ export const Body = () => {
       const crousel = json?.data?.cards[0].data?.data.cards;
       setListOfRes(value)
       setListOfResOriginal(value)
-      console.log(crousel)
       setCrouselVal(crousel)
     }
+
+    async function getResturantsDataApiWithOffset(){
+      setTimeout(async () => {
+        const data = await fetch(`https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.964430071887168&lng=79.15881760418415&offset=${offsetVal}&sortBy=RELEVANCE&pageType=SEE_ALL&page_type=DESKTOP_SEE_ALL_LISTING`)
+        const json = await data.json();
+        const newDataArr = json.data.cards;
+        setOffsetVal(offsetVal+16);
+        setListOfRes([...listOfRes, ...newDataArr]);
+      },[1000])
+      setIsFetching(false);
+    }
+
+    const handleScroll = () => {
+      if (Math.ceil(window.innerHeight + document.documentElement.scrollTop) !==  (document.documentElement.offsetHeight)  ||  isFetching){
+        return;
+      }
+      setIsFetching(true);
+    };
+
 
     const changeFilter = (data) => () => {
       let localConfigData = Object.assign([],sortingConfig);
@@ -138,7 +163,9 @@ export const Body = () => {
               {/* resturant card */}
               <div className="resturant-container">
                 {listOfRes.map(ele => 
+               
                 <Link to = {`/resturant/${ele?.data?.id}`} key = {ele?.data?.id} style={{color: 'inherit', textDecoration: 'none'}}>
+                  { console.log(ele)}
                   <ResturantCard resData = {ele}/>
                 </Link>
                   )}       

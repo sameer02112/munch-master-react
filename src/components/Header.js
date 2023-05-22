@@ -21,7 +21,7 @@ export const Header = () => {
     setIsLoginDrawerOpen(false);
   }
 
-  const {user} = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
 
 
     return (

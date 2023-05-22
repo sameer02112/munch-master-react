@@ -7,12 +7,12 @@ import { useState } from 'react';
 
 const App = () => {
 
-const [user, setUser] = useState({ user: {name: 'sameera', email: 'sam@yahoo.in'}});
+const [user, setUser] = useState({ user: {name: 'sameer agrawal', email: 'sam@yahoo.in'}});
 
 
   return (
     <div className="app">
-      <UserContext.Provider value = {user}>
+      <UserContext.Provider value = {user} setUser={setUser}>
           <Header/>
           <Outlet/>
           <Footer/>
