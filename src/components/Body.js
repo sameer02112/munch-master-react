@@ -90,13 +90,13 @@ export const Body = () => {
           localResData.sort((a,b) => (Number(a.info.avgRating) > Number(b.info.avgRating)) ? -1:1)
         }
         else if(name === 'deliveryTime'){
-          localResData.sort((a,b) => (Number(a.info.deliveryTime) < Number(b.info.deliveryTime)) ? -1:1)
+          localResData.sort((a,b) => (Number(a.info.sla.deliveryTime) < Number(b.info.sla.deliveryTime)) ? -1:1)
         }
         else if(name === 'priceLowToHigh'){
-          localResData.sort((a,b) => (Number(a.info.costForTwo) < Number(b.info.costForTwo)) ? -1:1)
+          localResData.sort((a,b) => (Number(a.info.costForTwo.split(" ")[0].substring(1))) < Number(b.info.costForTwo.split(" ")[0].substring(1)) ? -1:1)
         }
         else if(name === 'priceHighToLow'){
-          localResData.sort((a,b) => (Number(a.info.costForTwo) > Number(b.info.costForTwo)) ? -1:1)
+          localResData.sort((a,b) => (Number(a.info.costForTwo.split(" ")[0].substring(1))) > Number(b.info.costForTwo.split(" ")[0].substring(1)) ? -1:1)
         }
        setListOfRes(localResData)
     }
@@ -130,7 +130,7 @@ export const Body = () => {
                 <button className="search-btn" onClick={searchResturants}>Search</button>
             </div>
 
-          <h2>Best offers for you</h2>
+          <h2 className="header-text">Best offers for you</h2>
             <div className="homepage-img-crousel">
               {crouselVal.map((ele,index) => {
                 return (
@@ -141,7 +141,7 @@ export const Body = () => {
               })}
             </div>
 
-            <h2>Whats on your mind</h2>
+            <h2 className="header-text">Whats on your mind</h2>
             <div className="homepage-img-whatsOnMind">
               {whatsOnYourMind.map((ele,index) => {
                 return (

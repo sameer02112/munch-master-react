@@ -4,7 +4,7 @@ import StarIcon from '@mui/icons-material/Star';
 import { Divider } from "@mui/material";
 
 export const ResturantCard = ({resData}) => {
-    const {cloudinaryImageId,name,cuisines,avgRating,costForTwo,deliveryTime,aggregatedDiscountInfo} = resData?.info.hasOwnProperty("id") ? resData?.info : resData?.data?.data;
+    const {cloudinaryImageId,name,cuisines,avgRating,costForTwo,sla,aggregatedDiscountInfo} = resData?.info.hasOwnProperty("id") ? resData?.info : resData?.data?.data;
     return(
       <div className="resturant-parent-container">
         <div className="resturant-card">
@@ -18,7 +18,7 @@ export const ResturantCard = ({resData}) => {
               <StarIcon className="ratingStarIcon"/><p>{avgRating}</p>  
               </div>    
               <p>{costForTwo}</p>
-              <p>{deliveryTime}</p>
+              <p>{sla?.slaString}</p>
           </div>
           <Divider variant="middle" className="card-divider"/>
           <h4 className="card-offer-text">{aggregatedDiscountInfo?.shortDescriptionList[0]?.meta}</h4>

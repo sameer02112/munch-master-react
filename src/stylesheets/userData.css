@@ -1,5 +1,5 @@
 .user-profile-parent-container{
-    background-color: #37718e;
+    background-image: linear-gradient( #fff, #c9c9c9);
     padding: 0px !important;
     margin: 0px !important;
 }
@@ -11,7 +11,7 @@
 }
 .user-basic-info-container{
     margin: 50px;
-    color: white;
+    color: #000;
     /* height: 200px; */
 }
 .edit-profile-btn{
