@@ -28,7 +28,7 @@ export const Body = () => {
 
     useEffect(()=>{
       if (!isFetching) return;
-      getResturantsDataApiWithOffset();
+      // getResturantsDataApiWithOffset();
     },[isFetching])
 
     async function getResturantsDataApi(){
