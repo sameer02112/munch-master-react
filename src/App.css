@@ -120,13 +120,30 @@
   background-color: #171a29;
   margin-bottom: 20px;
   display: flex;
-  justify-content: center;
+  justify-content: start;
+  overflow: auto;
+}
+.homepage-img-whatsOnMind{
+  height: 200px;
+  width: 100%;
+  background-color: #fff;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: start;
+  overflow: auto;
 }
 .homepage-crousel-card{
   margin: 20px;
 }
 .homepage-crousel-card > img{
   height: 100%;
+}
+.homepage-whatsOnMind-card{
+  margin: 10px;
+}
+.homepage-whatsOnMind-card > img{
+  height: 100%;
+  cursor: pointer;
 }
 
 .search-input{
@@ -136,6 +153,8 @@
   text-decoration: none;
   border-radius: 10px;
   border: 1px solid #858585;
+  padding: 10px;
+  background-image: linear-gradient(#e8e8e8, #fff);
 }
 .search-input:focus {
   outline-width: 0;
@@ -168,7 +187,7 @@
 .resturant-card{
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: 290px;
   padding: 15px;
   margin: 5px;
  

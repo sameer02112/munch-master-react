@@ -17,6 +17,7 @@ export const Body = () => {
     const [searchText, setSearchText] = useState("");
     const [isFilterApplied, setIsFilterApplied] = useState(false);
     const [crouselVal, setCrouselVal] = useState([]);
+    const [whatsOnYourMind, setWhatsOnYourMind] = useState([]);
     const [offsetVal, setOffsetVal] = useState(0);
     const [isFetching, setIsFetching] = useState(false);
 
@@ -27,17 +28,19 @@ export const Body = () => {
 
     useEffect(()=>{
       if (!isFetching) return;
-      getResturantsDataApiWithOffset();
+      // getResturantsDataApiWithOffset();
     },[isFetching])
 
     async function getResturantsDataApi(){
-      const data = await fetch('https://www.swiggy.com/dapi/restaurants/list/v5?lat=17.385044&lng=78.486671&page_type=DESKTOP_WEB_LISTING');
+      const data = await fetch('https://www.swiggy.com/dapi/restaurants/list/v5?lat=17.4623154&lng=78.36360069999999&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING');
       const json = await data.json();
-      const value =  json?.data?.cards[2]?.data?.data?.cards;
-      const crousel = json?.data?.cards[0].data?.data.cards;
+      const value =  json?.data.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
+      const crousel = json?.data?.cards[0].card?.card?.gridElements?.infoWithStyle?.info;
+      const whatsOnMind = json?.data?.cards[1].card?.card?.gridElements?.infoWithStyle?.info;
       setListOfRes(value)
       setListOfResOriginal(value)
       setCrouselVal(crousel)
+      setWhatsOnYourMind(whatsOnMind)
     }
 
     async function getResturantsDataApiWithOffset(){
@@ -84,23 +87,24 @@ export const Body = () => {
     const applyChangesOnResturantCards = (name) => { 
       let localResData = Object.assign([],listOfRes);
         if(name === 'avgRating'){
-          localResData.sort((a,b) => (Number(a.data.avgRating) > Number(b.data.avgRating)) ? -1:1)
+          localResData.sort((a,b) => (Number(a.info.avgRating) > Number(b.info.avgRating)) ? -1:1)
         }
         else if(name === 'deliveryTime'){
-          localResData.sort((a,b) => (Number(a.data.deliveryTime) < Number(b.data.deliveryTime)) ? -1:1)
+          localResData.sort((a,b) => (Number(a.info.deliveryTime) < Number(b.info.deliveryTime)) ? -1:1)
         }
         else if(name === 'priceLowToHigh'){
-          localResData.sort((a,b) => (Number(a.data.costForTwo) < Number(b.data.costForTwo)) ? -1:1)
+          localResData.sort((a,b) => (Number(a.info.costForTwo) < Number(b.info.costForTwo)) ? -1:1)
         }
         else if(name === 'priceHighToLow'){
-          localResData.sort((a,b) => (Number(a.data.costForTwo) > Number(b.data.costForTwo)) ? -1:1)
+          localResData.sort((a,b) => (Number(a.info.costForTwo) > Number(b.info.costForTwo)) ? -1:1)
         }
        setListOfRes(localResData)
     }
 
     const searchResturants = () => {
       let initialResList = Object.assign([],listOfResOriginal);
-      let finalResList = initialResList.filter(el => (el.data.name.toLowerCase()).includes(searchText.toLowerCase()));
+      console.log('initialResList',initialResList)
+      let finalResList = initialResList.filter(el => (el.info.name.toLowerCase()).includes(searchText.toLowerCase()));
       setListOfRes(finalResList);
     }
 
@@ -110,7 +114,7 @@ export const Body = () => {
       return <h2>No Internet Connection!</h2>
     }
 
-    return listOfResOriginal.length === 0 ? (
+    return listOfResOriginal?.length === 0 ? (
       <Shimmer/> 
         ) : (
           <div className="body">
@@ -126,24 +130,36 @@ export const Body = () => {
                 <button className="search-btn" onClick={searchResturants}>Search</button>
             </div>
 
+          <h2>Best offers for you</h2>
             <div className="homepage-img-crousel">
-              {crouselVal.map(ele => {
+              {crouselVal.map((ele,index) => {
                 return (
-                  <div className="homepage-crousel-card">
-                      <img src = {`https://res.cloudinary.com/swiggy/image/upload/${ele.data.creativeId}`} alt="crouselimg"/>
+                  <div className="homepage-crousel-card" key={index}>
+                      <img src = {`https://res.cloudinary.com/swiggy/image/upload/${ele.imageId}`} alt="crouselimg" />
+                  </div>
+                )
+              })}
+            </div>
+
+            <h2>Whats on your mind</h2>
+            <div className="homepage-img-whatsOnMind">
+              {whatsOnYourMind.map((ele,index) => {
+                return (
+                  <div className="homepage-whatsOnMind-card"  key={index}>
+                      <img src = {`https://res.cloudinary.com/swiggy/image/upload/${ele.imageId}`} alt="crouselimg"/>
                   </div>
                 )
               })}
             </div>
 
             {/* sorting filter */}
-            {listOfRes.length === 0 && <h3 className = "no-result-found-container">No Results Found!</h3>}
-            {listOfRes.length !== 0 && 
+            {listOfRes?.length === 0 && <h3 className = "no-result-found-container">No Results Found!</h3>}
+            {listOfRes?.length !== 0 && 
             <>
               <div className="resturant-filter-container">
                 {isFilterApplied && <FilterAltOutlinedIcon fontSize="large" style={{color: '#213552'}}/>}
                 {!isFilterApplied && <FilterAltOffOutlinedIcon fontSize="large" style={{color: '#213552'}}/>}
-                {sortingConfig.map((ele,index) => {
+                {sortingConfig?.map((ele,index) => {
                   return(
                     <div 
                       className="sort-text-box" 
@@ -157,15 +173,14 @@ export const Body = () => {
               </div>
 
               {/* number of resturants heading */}
-              <p className="no-of-res-text">{listOfRes.length} Resturants</p>
+              <p className="no-of-res-text">{listOfRes?.length} Resturants</p>
               <Divider variant="middle" className="card-divider"/>
 
               {/* resturant card */}
               <div className="resturant-container">
-                {listOfRes.map(ele => 
+                {listOfRes?.map(ele => 
                
-                <Link to = {`/resturant/${ele?.data?.id}`} key = {ele?.data?.id} style={{color: 'inherit', textDecoration: 'none'}}>
-                  { console.log(ele)}
+                <Link to = {`/resturant/${ele?.info?.id}`} key = {ele?.info?.id} style={{color: 'inherit', textDecoration: 'none'}}>
                   <ResturantCard resData = {ele}/>
                 </Link>
                   )}       
